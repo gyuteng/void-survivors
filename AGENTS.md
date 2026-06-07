@@ -136,17 +136,17 @@ UI:         #ffffff (흰색)
 ## 현재 작업 상태
 
 ### 완료
-- 없음
+- [#001] 프로젝트 뼈대 세팅 (index.html, BootScene, GameScene, GameConfig)
+- [#002] 플레이어 이동 (WASD, 대각선 정규화, 경계 클램프)
+- [#003] 자동 공격 (AttackSystem, Projectile — 최근접 적 자동 발사)
+- [#004] 웨이브 시스템 (WaveSystem, Enemy — PREP→COMBAT→CLEAR 순환)
 
 ### 진행 중
 - 없음
 
 ### 대기
-- 플레이어 이동
-- 자동 공격
-- 아이템 줍기 + 조합
-- 웨이브 시스템
 - 보스
+- 아이템 줍기 + 조합
 - 레벨업 선택지
 - 게임오버
 - Supabase 로깅
