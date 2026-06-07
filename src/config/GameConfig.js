@@ -59,6 +59,23 @@ const GameConfig = {
     WAVE_CYCLE:   3,   // 몇 웨이브마다 보스 스폰
   },
 
+  // 아이템 시스템 설정
+  ITEM: {
+    SPAWN_COUNT:      10,   // 준비 페이즈 스폰 수
+    RADIUS:           10,   // 도형 반지름(px)
+    PICKUP_RADIUS:    30,   // 획득 판정 거리(px)
+    TIER1_THRESHOLD:   3,   // 1단계 효과 발동 개수
+    TIER2_THRESHOLD:   5,   // 2단계 효과 발동 개수
+    TYPES: ['VOID', 'FLAME', 'FROST', 'THUNDER'],
+    // 계열별 색상 (AGENTS.md 팔레트 기준)
+    COLOR: {
+      VOID:    0xffffff,
+      FLAME:   0xff6600,
+      FROST:   0x00ccff,
+      THUNDER: 0xffd700,
+    },
+  },
+
   // 씬 전환 딜레이(ms)
   BOOT_DELAY: 500,
 };

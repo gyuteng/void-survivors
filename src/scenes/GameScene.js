@@ -1,4 +1,4 @@
-// 게임 씬 — 배경·격자·플레이어 이동·자동 공격·웨이브 시스템
+// 게임 씬 — 배경·격자·플레이어 이동·자동 공격·웨이브·아이템
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -11,6 +11,9 @@ class GameScene extends Phaser.Scene {
     this._player       = new Player(this);
     this._attackSystem = new AttackSystem(this);
     this._waveSystem   = new WaveSystem(this);
+    this._itemSystem   = new ItemSystem(this);
+    // 게임 시작 = 준비 페이즈 → 아이템 즉시 스폰
+    this._itemSystem.spawnItems();
   }
 
   update(_time, delta) {
@@ -18,12 +21,10 @@ class GameScene extends Phaser.Scene {
 
     const enemies = this._waveSystem.enemies;
 
-    // 웨이브 업데이트 — 충돌 감지를 위해 투사체 배열 전달
     this._waveSystem.update(delta, this._player.x, this._player.y,
                             this._attackSystem.projectiles);
-
-    // 자동 공격 — 살아있는 적 목록 전달
     this._attackSystem.update(delta, this._player.x, this._player.y, enemies);
+    this._itemSystem.update(this._player.x, this._player.y);
   }
 
   // 단색 배경 렌더링
