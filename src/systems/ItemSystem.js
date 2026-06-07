@@ -8,16 +8,18 @@ class ItemSystem {
     this._counts = { VOID: 0, FLAME: 0, FROST: 0, THUNDER: 0 };
   }
 
-  // 준비 페이즈 시작 시 호출 — 맵에 아이템 랜덤 스폰
+  // 준비 페이즈 시작 시 호출 — 플레이어 시작 위치 기준 뷰포트 범위 내 스폰
   spawnItems() {
     const { SPAWN_COUNT, TYPES } = GameConfig.ITEM;
     const margin = 40;
-    const W      = GameConfig.WIDTH;
-    const H      = GameConfig.HEIGHT;
+    const halfW  = GameConfig.WIDTH  / 2 - margin;
+    const halfH  = GameConfig.HEIGHT / 2 - margin;
+    const cx     = GameConfig.PLAYER.START_X;
+    const cy     = GameConfig.PLAYER.START_Y;
 
     for (let i = 0; i < SPAWN_COUNT; i++) {
-      const x    = Phaser.Math.Between(margin, W - margin);
-      const y    = Phaser.Math.Between(margin, H - margin);
+      const x    = Phaser.Math.Between(cx - halfW, cx + halfW);
+      const y    = Phaser.Math.Between(cy - halfH, cy + halfH);
       // 랜덤 계열 배정
       const type = TYPES[Phaser.Math.Between(0, TYPES.length - 1)];
       this._items.push(new Item(this._scene, x, y, type));

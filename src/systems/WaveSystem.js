@@ -7,6 +7,9 @@ class WaveSystem {
     this._timer      = GameConfig.WAVE.PREP_DURATION;
     this._waveNumber = 0;
     this._enemies    = [];
+    // 마지막으로 알려진 플레이어 위치 (카메라 기준 스폰용)
+    this._lastCamX   = GameConfig.PLAYER.START_X;
+    this._lastCamY   = GameConfig.PLAYER.START_Y;
 
     // 레벨업 선택 완료 시 다음 웨이브 시작
     this._scene.events.on('levelup:done', this._startWave, this);
@@ -14,6 +17,10 @@ class WaveSystem {
 
   // 매 프레임 호출 — projectiles: Projectile 배열 (충돌 감지용)
   update(delta, playerX, playerY, projectiles) {
+    // 스폰 위치 계산용 플레이어 좌표 갱신
+    this._lastCamX = playerX;
+    this._lastCamY = playerY;
+
     if      (this._state === 'PREP')    this._updatePrep(delta);
     else if (this._state === 'COMBAT')  this._updateCombat(delta, playerX, playerY, projectiles);
     else if (this._state === 'CLEAR')   this._updateClear(delta);
@@ -55,18 +62,24 @@ class WaveSystem {
     }
   }
 
-  // 화면 4방향 밖 랜덤 위치
+  // 카메라(플레이어) 기준 뷰포트 밖 4방향 랜덤 위치
   _randomSpawnPos() {
-    const m = GameConfig.WAVE.SPAWN_MARGIN;
-    const W = GameConfig.WIDTH;
-    const H = GameConfig.HEIGHT;
+    const m   = GameConfig.WAVE.SPAWN_MARGIN;
+    const VW  = GameConfig.WIDTH;   // 뷰포트 너비
+    const VH  = GameConfig.HEIGHT;  // 뷰포트 높이
+    const MW  = GameConfig.MAP.WIDTH;
+    const MH  = GameConfig.MAP.HEIGHT;
+    const cx  = this._lastCamX;
+    const cy  = this._lastCamY;
+    const clX = (x) => Phaser.Math.Clamp(x, 0, MW);
+    const clY = (y) => Phaser.Math.Clamp(y, 0, MH);
     const side = Phaser.Math.Between(0, 3);
 
     switch (side) {
-      case 0: return { x: Phaser.Math.Between(0, W), y: -m };        // 위
-      case 1: return { x: W + m, y: Phaser.Math.Between(0, H) };     // 오른쪽
-      case 2: return { x: Phaser.Math.Between(0, W), y: H + m };     // 아래
-      default: return { x: -m, y: Phaser.Math.Between(0, H) };       // 왼쪽
+      case 0: return { x: clX(Phaser.Math.Between(cx - VW/2, cx + VW/2)), y: clY(cy - VH/2 - m) }; // 위
+      case 1: return { x: clX(cx + VW/2 + m), y: clY(Phaser.Math.Between(cy - VH/2, cy + VH/2)) }; // 오른쪽
+      case 2: return { x: clX(Phaser.Math.Between(cx - VW/2, cx + VW/2)), y: clY(cy + VH/2 + m) }; // 아래
+      default: return { x: clX(cx - VW/2 - m), y: clY(Phaser.Math.Between(cy - VH/2, cy + VH/2)) }; // 왼쪽
     }
   }
 

@@ -23,12 +23,18 @@ const GameConfig = {
     LINE_ALPHA: 0.3, // 격자선 투명도
   },
 
+  // 맵 크기 (뷰포트와 독립)
+  MAP: {
+    WIDTH:  4800,  // 전체 맵 너비(px)
+    HEIGHT: 4800,  // 전체 맵 높이(px)
+  },
+
   // 플레이어 설정
   PLAYER: {
     RADIUS: 16,       // 원 반지름(px)
     SPEED: 220,       // 이동속도(px/초)
-    START_X: 240,     // 초기 X 위치
-    START_Y: 427,     // 초기 Y 위치 (화면 중앙)
+    START_X: 2400,    // 초기 X 위치 (맵 중앙)
+    START_Y: 2400,    // 초기 Y 위치 (맵 중앙)
   },
 
   // 자동 공격 설정

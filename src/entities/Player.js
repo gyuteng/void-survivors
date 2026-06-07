@@ -42,13 +42,15 @@ class Player {
     let nx = this._graphic.x + vx * speed * dt;
     let ny = this._graphic.y + vy * speed * dt;
 
-    // 화면 경계 클램프
-    nx = Phaser.Math.Clamp(nx, radius, GameConfig.WIDTH  - radius);
-    ny = Phaser.Math.Clamp(ny, radius, GameConfig.HEIGHT - radius);
+    // 맵 경계 클램프 (뷰포트가 아닌 전체 맵 기준)
+    nx = Phaser.Math.Clamp(nx, radius, GameConfig.MAP.WIDTH  - radius);
+    ny = Phaser.Math.Clamp(ny, radius, GameConfig.MAP.HEIGHT - radius);
 
     this._graphic.setPosition(nx, ny);
   }
 
-  get x() { return this._graphic.x; }
-  get y() { return this._graphic.y; }
+  get x()       { return this._graphic.x; }
+  get y()       { return this._graphic.y; }
+  // 카메라 startFollow 용 게임 오브젝트 참조
+  get graphic() { return this._graphic;   }
 }

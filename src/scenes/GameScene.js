@@ -15,6 +15,11 @@ class GameScene extends Phaser.Scene {
     this._levelSystem  = new LevelSystem(this, this._itemSystem);
     // 게임 시작 = 준비 페이즈 → 아이템 즉시 스폰
     this._itemSystem.spawnItems();
+
+    // 카메라 — 전체 맵 범위 설정 후 플레이어 팔로우
+    const { WIDTH: mw, HEIGHT: mh } = GameConfig.MAP;
+    this.cameras.main.setBounds(0, 0, mw, mh);
+    this.cameras.main.startFollow(this._player.graphic, true);
   }
 
   update(_time, delta) {
@@ -31,36 +36,34 @@ class GameScene extends Phaser.Scene {
     this._itemSystem.update(this._player.x, this._player.y);
   }
 
-  // 단색 배경 렌더링
+  // 단색 배경 렌더링 (전체 맵 크기)
   _drawBackground() {
     this.add.rectangle(
       0, 0,
-      GameConfig.WIDTH,
-      GameConfig.HEIGHT,
+      GameConfig.MAP.WIDTH,
+      GameConfig.MAP.HEIGHT,
       GameConfig.COLOR.BACKGROUND
     ).setOrigin(0, 0);
   }
 
-  // 격자선 렌더링
+  // 격자선 렌더링 (전체 맵 기준)
   _drawGrid() {
-    const { WIDTH, HEIGHT, CELL_SIZE, LINE_ALPHA } = {
-      WIDTH:      GameConfig.WIDTH,
-      HEIGHT:     GameConfig.HEIGHT,
-      CELL_SIZE:  GameConfig.GRID.CELL_SIZE,
-      LINE_ALPHA: GameConfig.GRID.LINE_ALPHA,
-    };
+    const MW        = GameConfig.MAP.WIDTH;
+    const MH        = GameConfig.MAP.HEIGHT;
+    const CELL_SIZE = GameConfig.GRID.CELL_SIZE;
+    const LINE_ALPHA = GameConfig.GRID.LINE_ALPHA;
 
     const graphics = this.add.graphics();
     graphics.lineStyle(1, GameConfig.COLOR.GRID, LINE_ALPHA);
 
-    for (let x = 0; x <= WIDTH; x += CELL_SIZE) {
+    for (let x = 0; x <= MW; x += CELL_SIZE) {
       graphics.moveTo(x, 0);
-      graphics.lineTo(x, HEIGHT);
+      graphics.lineTo(x, MH);
     }
 
-    for (let y = 0; y <= HEIGHT; y += CELL_SIZE) {
+    for (let y = 0; y <= MH; y += CELL_SIZE) {
       graphics.moveTo(0, y);
-      graphics.lineTo(WIDTH, y);
+      graphics.lineTo(MW, y);
     }
 
     graphics.strokePath();
