@@ -38,6 +38,18 @@ const GameConfig = {
     PROJ_RADIUS: 5,    // 투사체 반지름(px)
   },
 
+  // 웨이브 시스템 설정
+  WAVE: {
+    PREP_DURATION:   30000, // 준비 페이즈 시간(ms)
+    CLEAR_DELAY:      2000, // 웨이브 클리어 후 다음 웨이브 대기(ms)
+    BASE_COUNT:           5, // 웨이브 1 적 수
+    COUNT_INCREMENT:      3, // 웨이브마다 추가되는 적 수
+    SPAWN_MARGIN:        40, // 화면 밖 스폰 여백(px)
+    ENEMY_SPEED:         80, // 적 이동속도(px/초)
+    ENEMY_HP:             3, // 적 기본 HP
+    ENEMY_RADIUS:        20, // 충돌 반지름(px)
+  },
+
   // 씬 전환 딜레이(ms)
   BOOT_DELAY: 500,
 };
