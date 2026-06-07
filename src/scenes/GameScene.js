@@ -10,13 +10,26 @@ class GameScene extends Phaser.Scene {
     this._drawGrid();
     this._player       = new Player(this);
     this._attackSystem = new AttackSystem(this);
-    // 적 목록 — 웨이브 시스템 구현 전까지 빈 배열 유지
-    this._enemies = [];
+    // TODO: 웨이브 시스템 구현 시 제거 — 자동 공격 테스트용 더미 적
+    this._enemies = [this._spawnDummyEnemy()];
   }
 
   update(_time, delta) {
     this._player.update(delta);
     this._attackSystem.update(delta, this._player.x, this._player.y, this._enemies);
+  }
+
+  // TODO: 웨이브 시스템 구현 시 제거 — 빨간 삼각형 더미 적 스폰
+  _spawnDummyEnemy() {
+    const x = Phaser.Math.Between(60, GameConfig.WIDTH  - 60);
+    const y = Phaser.Math.Between(60, GameConfig.HEIGHT / 2);
+
+    const g = this.add.graphics();
+    g.fillStyle(GameConfig.COLOR.ENEMY, 1);
+    // 정삼각형: 꼭짓점 3개
+    g.fillTriangle(x, y - 20, x - 17, y + 10, x + 17, y + 10);
+
+    return { x, y, graphic: g };
   }
 
   // 단색 배경 렌더링
