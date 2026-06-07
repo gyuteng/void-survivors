@@ -31,6 +31,13 @@ const GameConfig = {
     START_Y: 427,     // 초기 Y 위치 (화면 중앙)
   },
 
+  // 자동 공격 설정
+  ATTACK: {
+    FIRE_RATE:   800,  // 발사 간격(ms)
+    PROJ_SPEED:  400,  // 투사체 속도(px/초)
+    PROJ_RADIUS: 5,    // 투사체 반지름(px)
+  },
+
   // 씬 전환 딜레이(ms)
   BOOT_DELAY: 500,
 };

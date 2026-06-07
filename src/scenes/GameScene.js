@@ -1,4 +1,4 @@
-// 게임 씬 — 배경 + 격자 렌더링, 플레이어 이동
+// 게임 씬 — 배경 + 격자 렌더링, 플레이어 이동, 자동 공격
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -8,11 +8,15 @@ class GameScene extends Phaser.Scene {
   create() {
     this._drawBackground();
     this._drawGrid();
-    this._player = new Player(this);
+    this._player       = new Player(this);
+    this._attackSystem = new AttackSystem(this);
+    // 적 목록 — 웨이브 시스템 구현 전까지 빈 배열 유지
+    this._enemies = [];
   }
 
   update(_time, delta) {
     this._player.update(delta);
+    this._attackSystem.update(delta, this._player.x, this._player.y, this._enemies);
   }
 
   // 단색 배경 렌더링
