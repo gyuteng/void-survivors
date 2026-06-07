@@ -67,19 +67,25 @@ const GameConfig = {
 
   // 아이템 시스템 설정
   ITEM: {
-    SPAWN_COUNT:      10,   // 준비 페이즈 스폰 수
     RADIUS:           10,   // 도형 반지름(px)
     PICKUP_RADIUS:    30,   // 획득 판정 거리(px)
     TIER1_THRESHOLD:   3,   // 1단계 효과 발동 개수
     TIER2_THRESHOLD:   5,   // 2단계 효과 발동 개수
-    TYPES: ['VOID', 'FLAME', 'FROST', 'THUNDER'],
-    // 계열별 색상 (AGENTS.md 팔레트 기준)
+    TYPES: ['VOID', 'FLAME', 'FROST', 'THUNDER', 'SWIFT'],
     COLOR: {
       VOID:    0xffffff,
       FLAME:   0xff6600,
       FROST:   0x00ccff,
       THUNDER: 0xffd700,
+      SWIFT:   0x00ff88,  // 빠른 계열 — 밝은 초록
     },
+    // 거리 존 기반 분산 배치 (총 40개) — R_MIN/R_MAX: 플레이어 스폰 기준 반경(px)
+    ZONES: [
+      { R_MIN:    0, R_MAX: 1500, COUNT:  8, TYPES: ['FLAME', 'FROST'],                       GLOBAL: false }, // 근거리 기본
+      { R_MIN: 1500, R_MAX: 3000, COUNT: 16, TYPES: ['VOID', 'THUNDER'],                      GLOBAL: false }, // 중거리 중간
+      { R_MIN: 3000, R_MAX: 3400, COUNT: 12, TYPES: ['VOID', 'FLAME', 'FROST', 'THUNDER'],    GLOBAL: false }, // 원거리 강한
+      { R_MIN:    0, R_MAX:    0, COUNT:  4, TYPES: ['SWIFT'],                                GLOBAL: true  }, // 맵 전체 랜덤
+    ],
   },
 
   // 레벨업 선택지 설정
