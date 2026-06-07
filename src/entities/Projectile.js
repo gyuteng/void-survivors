@@ -11,10 +11,14 @@ class Projectile {
     this._vx = dirX / len;
     this._vy = dirY / len;
 
+    // 발사 지점 저장 — 사거리 판정용 (맵 크기 의존 제거)
+    this._originX = x;
+    this._originY = y;
+
     this.active = true;
   }
 
-  // 매 프레임 이동 및 화면 밖 체크
+  // 매 프레임 이동 및 사거리 초과 체크
   update(delta) {
     if (!this.active) return;
 
@@ -24,10 +28,10 @@ class Projectile {
     this._graphic.x += this._vx * speed * dt;
     this._graphic.y += this._vy * speed * dt;
 
-    // 화면 밖으로 나가면 비활성화
-    const { WIDTH, HEIGHT } = GameConfig;
-    const { x, y } = this._graphic;
-    if (x < 0 || x > WIDTH || y < 0 || y > HEIGHT) {
+    // 발사 지점 기준 이동 거리가 PROJ_RANGE 초과 시 소멸
+    const dx = this._graphic.x - this._originX;
+    const dy = this._graphic.y - this._originY;
+    if (dx * dx + dy * dy > GameConfig.ATTACK.PROJ_RANGE ** 2) {
       this.destroy();
     }
   }

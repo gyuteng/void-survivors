@@ -42,6 +42,7 @@ const GameConfig = {
     FIRE_RATE:   800,  // 발사 간격(ms)
     PROJ_SPEED:  400,  // 투사체 속도(px/초)
     PROJ_RADIUS: 5,    // 투사체 반지름(px)
+    PROJ_RANGE:  800,  // 최대 사거리(px) — 맵 크기와 무관하게 거리 기준으로 소멸
   },
 
   // 웨이브 시스템 설정
