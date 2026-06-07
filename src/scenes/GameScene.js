@@ -1,4 +1,4 @@
-// 게임 씬 — 배경·격자·플레이어 이동·자동 공격·웨이브·아이템
+// 게임 씬 — 배경·격자·플레이어 이동·자동 공격·웨이브·아이템·레벨업
 
 class GameScene extends Phaser.Scene {
   constructor() {
@@ -12,11 +12,15 @@ class GameScene extends Phaser.Scene {
     this._attackSystem = new AttackSystem(this);
     this._waveSystem   = new WaveSystem(this);
     this._itemSystem   = new ItemSystem(this);
+    this._levelSystem  = new LevelSystem(this, this._itemSystem);
     // 게임 시작 = 준비 페이즈 → 아이템 즉시 스폰
     this._itemSystem.spawnItems();
   }
 
   update(_time, delta) {
+    // 레벨업 선택지 표시 중엔 게임 일시정지
+    if (this._levelSystem.active) return;
+
     this._player.update(delta);
 
     const enemies = this._waveSystem.enemies;

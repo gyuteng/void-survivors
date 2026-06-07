@@ -3,17 +3,21 @@
 class WaveSystem {
   constructor(scene) {
     this._scene      = scene;
-    this._state      = 'PREP'; // 'PREP' | 'COMBAT' | 'CLEAR'
+    this._state      = 'PREP'; // 'PREP' | 'COMBAT' | 'CLEAR' | 'LEVELUP'
     this._timer      = GameConfig.WAVE.PREP_DURATION;
     this._waveNumber = 0;
     this._enemies    = [];
+
+    // 레벨업 선택 완료 시 다음 웨이브 시작
+    this._scene.events.on('levelup:done', this._startWave, this);
   }
 
   // 매 프레임 호출 — projectiles: Projectile 배열 (충돌 감지용)
   update(delta, playerX, playerY, projectiles) {
-    if      (this._state === 'PREP')   this._updatePrep(delta);
-    else if (this._state === 'COMBAT') this._updateCombat(delta, playerX, playerY, projectiles);
-    else if (this._state === 'CLEAR')  this._updateClear(delta);
+    if      (this._state === 'PREP')    this._updatePrep(delta);
+    else if (this._state === 'COMBAT')  this._updateCombat(delta, playerX, playerY, projectiles);
+    else if (this._state === 'CLEAR')   this._updateClear(delta);
+    // LEVELUP 상태는 levelup:done 이벤트를 기다림 (타이머 없음)
   }
 
   // --- 준비 페이즈 ---
@@ -104,11 +108,15 @@ class WaveSystem {
     }
   }
 
-  // --- 클리어 대기 ---
+  // --- 클리어 대기 → 레벨업 선택 화면으로 전환 ---
 
   _updateClear(delta) {
     this._timer -= delta;
-    if (this._timer <= 0) this._startWave();
+    if (this._timer <= 0) {
+      // 짧은 딜레이 후 레벨업 선택 대기 상태로 전환
+      this._state = 'LEVELUP';
+      this._scene.events.emit('wave:clear', { wave: this._waveNumber });
+    }
   }
 
   get enemies()     { return this._enemies;    }

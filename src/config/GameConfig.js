@@ -76,6 +76,21 @@ const GameConfig = {
     },
   },
 
+  // 레벨업 선택지 설정
+  LEVELUP: {
+    CHOICE_COUNT:    3,    // 제시할 선택지 수
+    PANEL_WIDTH:   360,    // 선택지 패널 너비(px)
+    PANEL_HEIGHT:  110,    // 선택지 패널 높이(px)
+    PANEL_GAP:      18,    // 패널 간 간격(px)
+    PANEL_RADIUS:   12,    // 패널 모서리 반지름(px)
+    PANEL_COLOR: 0x1a1a2e, // 패널 배경색
+    PANEL_ALPHA:   0.95,   // 패널 투명도
+    OVERLAY_ALPHA: 0.75,   // 어두운 오버레이 투명도
+    FONT_TITLE:     20,    // 선택지 제목 폰트 크기
+    FONT_DESC:      14,    // 선택지 설명 폰트 크기
+    HOVER_COLOR: 0x2a2a4e, // 호버 시 패널 색상
+  },
+
   // 씬 전환 딜레이(ms)
   BOOT_DELAY: 500,
 };
