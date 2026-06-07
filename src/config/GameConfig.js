@@ -46,7 +46,7 @@ const GameConfig = {
 
   // 웨이브 시스템 설정
   WAVE: {
-    PREP_DURATION:   30000, // 준비 페이즈 시간(ms)
+    PREP_DURATION:   45000, // 준비 페이즈 시간(ms)
     CLEAR_DELAY:      2000, // 웨이브 클리어 후 다음 웨이브 대기(ms)
     BASE_COUNT:           5, // 웨이브 1 적 수
     COUNT_INCREMENT:      3, // 웨이브마다 추가되는 적 수
@@ -79,12 +79,12 @@ const GameConfig = {
       THUNDER: 0xffd700,
       SWIFT:   0x00ff88,  // 빠른 계열 — 밝은 초록
     },
-    // 거리 존 기반 분산 배치 (총 40개) — R_MIN/R_MAX: 플레이어 스폰 기준 반경(px)
+    // 거리 존 기반 분산 배치 (총 38개) — R_MIN/R_MAX: 플레이어 스폰 기준 반경(px)
     ZONES: [
-      { R_MIN:    0, R_MAX: 1500, COUNT:  8, TYPES: ['FLAME', 'FROST'],                       GLOBAL: false }, // 근거리 기본
-      { R_MIN: 1500, R_MAX: 3000, COUNT: 16, TYPES: ['VOID', 'THUNDER'],                      GLOBAL: false }, // 중거리 중간
-      { R_MIN: 3000, R_MAX: 3400, COUNT: 12, TYPES: ['VOID', 'FLAME', 'FROST', 'THUNDER'],    GLOBAL: false }, // 원거리 강한
-      { R_MIN:    0, R_MAX:    0, COUNT:  4, TYPES: ['SWIFT'],                                GLOBAL: true  }, // 맵 전체 랜덤
+      { R_MIN:    0, R_MAX: 1500, COUNT: 12, TYPES: ['FLAME', 'FROST', 'VOID', 'THUNDER'],    GLOBAL: false }, // 근거리 기본 (4계열)
+      { R_MIN: 1500, R_MAX: 2200, COUNT: 12, TYPES: ['VOID', 'THUNDER', 'FLAME'],             GLOBAL: false }, // 중거리 2A (점진적 계열 노출)
+      { R_MIN: 2200, R_MAX: 3400, COUNT: 12, TYPES: ['VOID', 'FLAME', 'FROST', 'THUNDER'],   GLOBAL: false }, // 중거리 2B → 원거리 강한 계열
+      { R_MIN: 1500, R_MAX: 2500, COUNT:  2, TYPES: ['SWIFT'],                               GLOBAL: false }, // SWIFT — 중거리 반경 한정
     ],
   },
 
