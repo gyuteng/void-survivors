@@ -104,6 +104,20 @@ const GameConfig = {
     HOVER_COLOR: 0x2a2a4e, // 호버 시 패널 색상
   },
 
+  // DDA — 동적 난이도 조정
+  DDA: {
+    MODIFIER_INIT:  1.0,   // DIFFICULTY_MODIFIER 초기값
+    MODIFIER_MIN:   0.5,   // 최솟값
+    MODIFIER_MAX:   2.0,   // 최댓값
+    CLEAR_TIME_REF: 30000, // 기준 클리어 시간(ms) — 이 이하면 빠른 클리어
+    HP_EASY:        0.8,   // 쉬움 판정 HP 비율 (80% 이상)
+    HP_HARD:        0.4,   // 어려움 판정 HP 비율 (40% 이하)
+    SCALE_EASY:     1.3,   // 쉬움 → 난이도 증가 배율
+    SCALE_HARD:     0.8,   // 어려움 → 난이도 감소 배율
+    HP_GROWTH:      1.2,   // 웨이브당 적 HP 성장률
+    SPEED_GROWTH:   1.1,   // 웨이브당 적 속도 성장률
+  },
+
   // 씬 전환 딜레이(ms)
   BOOT_DELAY: 500,
 };
