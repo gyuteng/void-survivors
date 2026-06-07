@@ -27,10 +27,21 @@ class WaveSystem {
 
   _startWave() {
     this._waveNumber++;
-    const count = GameConfig.WAVE.BASE_COUNT +
-                  (this._waveNumber - 1) * GameConfig.WAVE.COUNT_INCREMENT;
-    this._spawnEnemies(count);
+
+    // 웨이브 주기마다 보스 스폰 (일반 적 없음)
+    if (this._waveNumber % GameConfig.BOSS.WAVE_CYCLE === 0) {
+      this._spawnBoss();
+    } else {
+      const count = GameConfig.WAVE.BASE_COUNT +
+                    (this._waveNumber - 1) * GameConfig.WAVE.COUNT_INCREMENT;
+      this._spawnEnemies(count);
+    }
     this._state = 'COMBAT';
+  }
+
+  _spawnBoss() {
+    const { x, y } = this._randomSpawnPos();
+    this._enemies.push(new Boss(this._scene, x, y));
   }
 
   _spawnEnemies(count) {
@@ -69,21 +80,25 @@ class WaveSystem {
     }
   }
 
-  // 투사체 ↔ 적 원형 충돌 감지
+  // 투사체 ↔ 적/보스 원형 충돌 감지 — 보스는 반지름이 다름
   _checkHits(projectiles) {
-    const r = GameConfig.WAVE.ENEMY_RADIUS + GameConfig.ATTACK.PROJ_RADIUS;
-    const rSq = r * r;
+    const projR = GameConfig.ATTACK.PROJ_RADIUS;
 
     for (const p of projectiles) {
       if (!p.active) continue;
       for (const e of this._enemies) {
         if (!e.active) continue;
-        const dx = p.x - e.x;
-        const dy = p.y - e.y;
+        // Boss 인스턴스 여부로 충돌 반지름 분기
+        const entityR = (e instanceof Boss)
+          ? GameConfig.BOSS.RADIUS
+          : GameConfig.WAVE.ENEMY_RADIUS;
+        const rSq = (entityR + projR) * (entityR + projR);
+        const dx  = p.x - e.x;
+        const dy  = p.y - e.y;
         if (dx * dx + dy * dy < rSq) {
-          p.destroy();       // 투사체 소멸
-          e.takeDamage(1);   // 적 피격
-          break;             // 투사체 하나는 적 하나만 타격
+          p.destroy();
+          e.takeDamage(1);
+          break;
         }
       }
     }

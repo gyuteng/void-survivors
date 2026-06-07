@@ -50,6 +50,15 @@ const GameConfig = {
     ENEMY_RADIUS:        20, // 충돌 반지름(px)
   },
 
+  // 보스 설정
+  BOSS: {
+    HP:          30,   // 보스 체력
+    SPEED:       50,   // 이동속도(px/초)
+    SIZE:        40,   // 사각형 한 변 절반(px) — 실제 크기 80×80
+    RADIUS:      44,   // 충돌 반지름(px)
+    WAVE_CYCLE:   3,   // 몇 웨이브마다 보스 스폰
+  },
+
   // 씬 전환 딜레이(ms)
   BOOT_DELAY: 500,
 };
